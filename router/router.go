@@ -19,8 +19,6 @@ func StartRouter() {
 
 	fmt.Println("Starting...")
 
-	log.Fatal(http.ListenAndServe(":3000", router))
-
 	//r := app.CreateRouter()
 
 	router.HandleFunc("/healthcheck", common.HealthCheck).Methods("GET")
@@ -30,5 +28,7 @@ func StartRouter() {
 	archetypeController := controller.NewArchetypeController(archetypeService)
 
 	router.HandleFunc("/", archetypeController.ArchetypeControllerExample).Methods("GET")
+
+	log.Fatal(http.ListenAndServe(":3000", router))
 
 }
