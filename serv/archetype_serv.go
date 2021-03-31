@@ -2,7 +2,6 @@ package serv
 
 import (
 	"encoding/json"
-	"net/http"
 
 	"github.com/AlejandroWaiz/repository-archetype/repo"
 )
@@ -12,18 +11,20 @@ type ArchetypeServ struct {
 }
 
 type IArchetypeServ interface {
+	ArchetypeServExample() (error, []byte)
 }
 
 func NewArchetypeServ(repo repo.IArchetypeRepo) *ArchetypeServ {
 	return &ArchetypeServ{Repo: repo}
 }
 
-func (s *ArchetypeServ) ArchetypeServExample() (int, []byte) {
+func (s *ArchetypeServ) ArchetypeServExample() (error, []byte) {
 	type Status struct {
 		Message string `json:"Message"`
 		Details string `json:"Details"`
 	}
 	status := &Status{Message: "ArchetypeService", Details: "Example"}
-	b, _ := json.Marshal(&status)
-	return http.StatusOK, b
+	b, err := json.Marshal(&status)
+
+	return err, b
 }
